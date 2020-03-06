@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Gravação de Pontos";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js" type="text/javascript"></script>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+<link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+
+
+<div id="mapPoints" class="mapPoints"></div>
+<br />
+<div>
+    <div>
+        <div class="col-lg-2">
+            <button class="btn btn-success btn-success-save" id="btn-insert-point">New Point</button>
+        </div>
+        <div class="col-lg-3">
+            <div>Latitude:</div>
+            <div id="latValue">000000</div>
+        </div>
+        <div class="col-lg-3">
+            <div>Longitude:</div>
+            <div id="lngValue">000000</div>
+        </div>
+    </div>  
+    <br />
+    <br />
+    <br />
+    <div style="height: 500px; overflow-y: scroll;">
+        <table class="table table-hover" id="bodyTabela">
+            <thead>
+                <tr>
+                    <th><h4><font color="white">Label</font></h4></th>
+                    <th><h4><font color="white">Latitude</font></h4></th>
+                    <th><h4><font color="white">Longitude</font></h4></th>
+                    <th><h4><font color="white">Velocity</font></h4></th>
+                    <th><h4><font color="white">Turn</font></h4></th>
+                    <th><h4><font color="white">Path</font></h4></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal modalLatLng" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle"><font color="black">Insert Point</font></h4>
+            </div>
+            <input type="hidden" id="modal-id">
+            <div class="modal-body">
+                <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-12">
+                        <label class="col-md-4" for="tittle">Label</label>
+                        <input class="col-md-6 datetimepicker" id="modal-description" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input class="col-md-6 datetimepicker" id="modal-lon" type="hidden">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input class="col-md-6 datetimepicker" id="modal-lat" type="hidden">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-4" for="tittle">Update Coord</label>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="update-coord" value:"false">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-12">
+                        <label class="col-md-4" for="tittle">Velocity</label>
+                        <input class="col-md-6 datetimepicker" id="modal-velocity" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-3" for="tittle" style="margin-right: 23px;">Turn</label>
+                        <div class="form-check-inline col-md-6" style="margin-right: 0px; margin-left: 0px;">
+                            <label class="form-check-label" style="margin-right: 45px;">
+                                <input type="checkbox" class="form-check-input" id="modal-leftlight" value:"true" style="vertical-align: bottom;">Left
+                            </label>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="modal-rightlight" value:"true" style="vertical-align: bottom;">Right
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-3" for="tittle" style="margin-right: 23px;">Path</label>
+                        <div class="form-check-inline col-md-6" style="margin-right: 0px; margin-left: 0px;">
+                            <label class="form-check-label" style="margin-right: 10px;">
+                                <input type="checkbox" class="form-check-input" id="modal-onstraight-straight" value:"true" style="vertical-align: bottom;">Straight
+                            </label>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="modal-onstraight-turn" value:"true" style="vertical-align: bottom;">Turn
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="cancel-event" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="insert-event">Insert</button>
+                <button type="button" class="btn btn-danger" id="remove-event">Remove</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/configPoints.js" type="module"></script>

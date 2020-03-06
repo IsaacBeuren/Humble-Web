@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="X-UA-Compatible" http-equiv="IE=edge">
+    <noscript><meta content="0;url=https://static.scania.com/vendors/components/pure-js/nonJS-browsers/1.0.0/nonJS-browsers.html" http-equiv="refresh"></noscript>
+    <script src="https://static.scania.com/vendors/components/pure-js/browser-reject/1.0.0/js/browser-reject.js"></script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - External AMR</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+
+    <script src="https://static.scania.com/build/global/3.5.3-1/js/corporate-ui.js"></script>
+
+    <style>
+        .map {
+            height: 700px;
+            width: 100%;
+            margin: 0;
+        }
+
+        #map {
+            position: relative;
+        }
+
+        .full-height {
+            height: 100%;
+        }
+
+        #mapPoints {
+            height: 400px;
+            width: 100%;
+            overflow: auto;
+            margin: 0;
+            position: relative;
+        }
+
+        #mapAGV {
+            height: 700px;
+            width: 1000px;
+            overflow: auto;
+            margin: 0;
+            position: relative;
+        }
+
+        #block_container {
+            display: flex;
+        }
+
+        #bloc1, #bloc2, #bloc3, #bloc4 {
+            display: inline;
+        }
+
+        .fade {
+            opacity: 0;
+            -webkit-transition: opacity .15s linear;
+            -o-transition: opacity .15s linear;
+            transition: opacity .15s linear;
+        }
+
+        .fade.in {
+                opacity: 1;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <c-corporate-header site-name="External AMR Controller" short-name="AMR" site-url="/">
+        <br />
+        <div>
+            <nav-item><a asp-area="" asp-controller="Home" asp-action="Privacy">Home</a></nav-item>
+            <nav-item>
+                <div class="dropdown">
+                    <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="position: absolute;">
+                        <li role="presentation">
+                            <a asp-area="" asp-controller="Equipment" asp-action="Index">Equipment</a>
+                        </li>
+                        <li role="presentation">
+                            <a asp-area="" asp-controller="ConfigPoints" asp-action="Index">Point Configuration</a>
+                        </li>
+                        <li role="presentation">
+                            <a asp-area="" asp-controller="Route" asp-action="Index">Routes</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav-item>
+            <nav-item>
+                <div class="dropdown">
+                    <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">AMR</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="position: absolute;">
+                        <li role="presentation">
+                            <a asp-area="" asp-controller="AGV" asp-action="Index">Insert Route</a>
+                        </li>
+                        @*<li role="presentation">
+                            <a asp-area="" asp-controller="AGV" asp-action="Monitor">Monitor Route</a>
+                        </li>*@
+                        <li role="presentation">
+                            <a asp-area="" asp-controller="AGV" asp-action="Status">Status</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav-item>
+            <nav-item><a asp-area="" asp-controller="Chamadas" asp-action="Index">Calls</a></nav-item>
+            <nav-item><a asp-area="" asp-controller="ControlTower" asp-action="Index">Control Tower</a></nav-item>
+            <nav-item><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></nav-item>
+        </div>
+    </c-corporate-header>
+
+
+
+    <c-main-content>
+        <section>
+            <div class="container-fluid">
+                <partial name="_CookieConsentPartial" />
+                <main role="main" class="pb-0">
+                    @RenderBody()
+                </main>
+            </div>
+        </section>
+    </c-main-content>
+
+
+
+    <c-corporate-footer>
+        <nav-item location="#">Autonomous Logistics Solutions</nav-item>
+
+    </c-corporate-footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
